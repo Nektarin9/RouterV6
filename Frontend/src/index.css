@@ -1,0 +1,98 @@
+@import url('./fonts/font-awesome.css');
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+	'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background-image: url("./assets/33a207715eb8d009767fe0b123f2e198.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+
+}
+
+html,
+body,
+#root {
+	height: auto;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+h1,
+h2,
+p {
+	margin: 0;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none
+}
+h1 {
+	color: red;
+}
+button,
+button:active,
+button:focus {
+	border: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input {
+	outline: none;
+}
+
+li {
+	list-style-type: none;
+	/* Убираем маркеры */
+}
+
+ul {
+	margin-left: 0;
+	/* Отступ слева в браузере IE и Opera */
+	padding-left: 0;
+	/* Отступ слева в браузере Firefox, Safari, Chrome */
+}
+
+/*Убрать полосу прокрутки у элемента*/
+.element::-webkit-scrollbar {
+	width: 0;
+}
+
+/*Убрать полосу прокрутки для всей страницы*/
+::-webkit-scrollbar {
+	width: 0;
+}
+
+img {
+	user-select: none;
+}
+
+@media only screen and (max-width: 768px) {
+	button {
+		/* Сброс всех стилей кнопок для мобильных устройств */
+		background: none;
+		border: none;
+		color: inherit;
+		font-size: inherit;
+		padding: 0;
+		cursor: pointer;
+		/* Другие свойства, которые вы хотите сбросить */
+	}
+}
