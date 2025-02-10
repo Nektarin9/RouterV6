@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { NavLink, Outlet } from 'react-router-dom';
-import {ROUTES_PATH} from "../routing/routes.ts";
+import {ROUTES_PATH} from "../../routing/routes.ts";
 
 
 const HomeContainer = ({ className }: { className?: string }) => {

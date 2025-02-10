@@ -5,5 +5,8 @@ export const ROUTES_PATH = {
 	LOCATION_ID: "/locationPage/:id",
 	EPISODES: "/episodesPage",
 	EPISODES_ID: "/episodesPage/:id",
+	GREETINGS: "/greetings",
+	HOME: "/",
+	LOGIN: "/login",
 }
 

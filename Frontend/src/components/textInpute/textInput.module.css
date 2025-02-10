@@ -1,0 +1,77 @@
+
+.container {
+	position: relative;
+	margin: 10px auto;
+}
+
+.label {
+	color: black;
+	font-weight: 600;
+	margin: 0;
+}
+
+.description {
+	display: block;
+	margin: 0 0 5px 0;
+	position: relative;
+	font-weight: 400;
+	color: rgb(91, 91, 91);
+}
+
+.error {
+	display: block;
+	font-weight: 400;
+	color: red;
+}
+.inputWrapper {
+	position: relative;
+}
+.leftSection {
+	position: absolute;
+	left: 5px;
+	top: 50%;
+	transform: translateY(-50%);
+	pointer-events: none;
+}
+
+
+.default {
+	background-color: white;
+	color: rgba(6, 6, 6, 0.667);
+	border: 1px solid rgb(0, 0, 0);
+}
+
+.filled {
+	background-color: rgb(235, 235, 235);
+	color: rgb(45, 45, 45);
+	border: 1px solid rgb(0, 0, 0);
+}
+
+.unstyled {
+	background-color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
+	border: none !important;
+}
+
+.default:focus,
+.filled:focus {
+	border: 1px solid rgb(0, 119, 142);
+}
+.unstyled:focus {
+	border: none !important;
+}
+
+.inputError {
+	color: red;
+	border: 1px solid red;
+}
+
+.inputError:focus {
+	border: 1px solid red;
+}
+
+.inputWithAsterisk {
+	position: relative;
+	left: 5px;
+	color: red;
+}
