@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { TopPanel } from '../components/topPanel.tsx';
 import { dateFormat } from '../../utils/dateFormat.ts';
-import { Loader } from '../../loader/loader.tsx';
+import { Loader } from '../../components/loader/loader.tsx';
 import {fetchOneCharacters} from "../../redux/api/actions";
 import {selectOneCharacters} from "../../redux/app-slice/appSelectors.ts";
 import {ROUTES_PATH} from "../../routing/routes.ts";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary.tsx";
 
 interface CharactersInfoProps {
 	className?: string;
@@ -17,17 +18,20 @@ const PersonInfoContainer = ({ className }: CharactersInfoProps) => {
 	const dispatch = useDispatch();
 	const oneCharacters = useSelector(selectOneCharacters);
 	const params = useParams();
-
 	useEffect(() => {
-		dispatch(fetchOneCharacters(params.id));
+		dispatch(fetchOneCharacters({id: params.id}));
 	}, [dispatch]);
 
 	return <div className={className}>
-		{oneCharacters ? <><TopPanel links={[
-			{ label: 'Главная', href: '/', isTarget: false },
-			{ label: 'Персонажи', href: ROUTES_PATH.CHARACTERS, isTarget: false },
-			{ label: oneCharacters.name, href: `${ROUTES_PATH.CHARACTERS}/${params.id}`, isTarget: true },
-		]} />
+
+		{oneCharacters ? <>
+			<ErrorBoundary>
+				<TopPanel links={[
+				{ label: 'Главная', href: '/', isTarget: false },
+				{ label: 'Персонажи', href: ROUTES_PATH.CHARACTERS, isTarget: false },
+				{ label: oneCharacters.name, href: `${ROUTES_PATH.CHARACTERS}/${params.id}`, isTarget: true }
+				]} />
+			</ErrorBoundary>
 			<div className="container">
 				<div className="infoBlock">
 					<img src={oneCharacters.image} alt={oneCharacters.name} />
@@ -44,7 +48,7 @@ const PersonInfoContainer = ({ className }: CharactersInfoProps) => {
 };
 
 
-export const CharactersInfo = styled(PersonInfoContainer)`
+const CharactersInfo = styled(PersonInfoContainer)`
 	.container {
 		text-align: center;
 		max-width: 800px;
@@ -55,8 +59,6 @@ export const CharactersInfo = styled(PersonInfoContainer)`
 		display: flex;
 		align-items: center;
 		gap: 40px;
-		border: 1px solid rgba(37, 37, 37, 0.59);
-		background-color: rgba(25, 24, 24, 0.42);
 	}
 
 	.textInfo {
@@ -66,3 +68,5 @@ export const CharactersInfo = styled(PersonInfoContainer)`
 		font-size: 22px;
 	}
 `;
+
+export default CharactersInfo

@@ -1,35 +1,42 @@
 import styled from 'styled-components';
 import { NavLink, Outlet } from 'react-router-dom';
 import {ROUTES_PATH} from "../../routing/routes.ts";
+import {Suspense} from "react";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary.tsx";
+import {Loader} from "../../components/loader/loader.tsx";
 
 
 const HomeContainer = ({ className }: { className?: string }) => {
 
 	return <div className={className}>
-		<div className="leftPanel">
-			<NavLink className={({ isActive }) =>
-				isActive ? 'categoriesActive' : 'categories'
-			} to={'/'}>Главная</NavLink>
-			<NavLink className={({ isActive }) =>
-				isActive ? 'categoriesActive' : 'categories'
-			} to={ROUTES_PATH.CHARACTERS}>Персонажи</NavLink>
-			<NavLink className={({ isActive }) =>
-				isActive ? 'categoriesActive' : 'categories'
-			} to={ROUTES_PATH.LOCATION}>Локации</NavLink>
-			<NavLink className={({ isActive }) =>
-				isActive ? 'categoriesActive' : 'categories'
-			} to={ROUTES_PATH.EPISODES}>
-				Эпизоды
-			</NavLink>
-		</div>
-		<div className="container">
-			<Outlet />
-		</div>
-	</div>;
+			<div className="leftPanel">
+				<ErrorBoundary>
+					<NavLink className={({ isActive }) =>
+						isActive ? 'categoriesActive' : 'categories'
+					} to={'/'}>Главная</NavLink>
+					<NavLink className={({ isActive }) =>
+						isActive ? 'categoriesActive' : 'categories'
+					} to={ROUTES_PATH.CHARACTERS}>Персонажи</NavLink>
+					<NavLink className={({ isActive }) =>
+						isActive ? 'categoriesActive' : 'categories'
+					} to={ROUTES_PATH.LOCATION}>Локации</NavLink>
+					<NavLink className={({ isActive }) =>
+						isActive ? 'categoriesActive' : 'categories'
+					} to={ROUTES_PATH.EPISODES}>
+						Эпизоды
+					</NavLink>
+				</ErrorBoundary>
+			</div>
+			<div className="container">
+				<Suspense fallback={<Loader />}>
+					<Outlet />
+				</Suspense>
+			</div>
+		</div>;
 };
 
 
-export const Home = styled(HomeContainer)`
+const Home = styled(HomeContainer)`
 	margin: 120px auto;
 	max-width: 1800px;
 
@@ -76,3 +83,5 @@ export const Home = styled(HomeContainer)`
 		}
 	}
 `
+
+export default Home

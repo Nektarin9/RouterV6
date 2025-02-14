@@ -4,3 +4,10 @@ export const PATCH_URL = {
 	EPISODES: `/episodes`,
 }
 
+
+
+export const PATCH_URL_RICK_AND_MORTY = {
+	CHARACTERS: `/character`,
+	LOCATION: `/location`,
+	EPISODES: `/episode`,
+}

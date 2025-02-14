@@ -19,7 +19,8 @@ export const AuthStatus = () => {
 
 const AuthStatusContainer = styled.div`
 	color: white;
-	margin: 15px auto;
+	margin: auto;
+	padding: 15px 15px;
 	font-size: 22px;
 	max-width: 1800px;
 	display: flex;
@@ -28,7 +29,8 @@ const AuthStatusContainer = styled.div`
 	align-items: center;
 `;
 const AuthStatusSignout = styled.p`
-	margin: 15px auto;
+	margin: auto;
+	padding: 15px 15px;
 	text-align: center;
 	max-width: 1800px;
 	font-size: 24px;

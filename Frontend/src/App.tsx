@@ -16,5 +16,4 @@ const AppContainer = ({ className }: { className?: string }) => {
 };
 
 export const App = styled(AppContainer)`
-
 `;

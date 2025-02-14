@@ -1,33 +1,33 @@
-import styled from 'styled-components';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCharacters } from '../../redux/api/actions';
-import {selectCharacters} from '../../redux/app-slice/appSelectors.ts';
-import { Link } from 'react-router-dom';
-import { Button } from '../../components/button/button.tsx';
-import { useSort } from '../../hooks/useSort.tsx';
-import { clear } from '../../redux/app-slice/appSlice.ts';
-import { TopPanel } from '../components/topPanel.tsx';
-import { Loader } from '../../loader/loader.tsx';
+import React, { useEffect} from 'react';
+import {Button} from "../../components/button/button.tsx";
+import {useSort} from "../../hooks/useSort.tsx";
+import {Link} from "react-router-dom";
 import {ROUTES_PATH} from "../../routing/routes.ts";
-
-
+import styled from "styled-components";
+import {Loader} from "../../components/loader/loader.tsx";
+import {TopPanel} from "../components/topPanel.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {selectCharacters} from "../../redux/app-slice/appSelectors.ts";
+import {fetchCharacters} from "../../redux/api/actions";
+import {reset} from "../../redux/app-slice/appSlice.ts";
+import {useInfinityScroll} from "../../hooks/useInfinityScroll.tsx";
 
 const CharactersContainer = ({ className }: { className?: string }) => {
 	const dispatch = useDispatch();
 	const characters = useSelector(selectCharacters);
 	const {sortedItems, handleSortChange} = useSort(characters || [])
-
+	const {lastItemRef} = useInfinityScroll("Characters")
 
 	useEffect(() => {
-		dispatch(fetchCharacters());
-		dispatch(clear())
+		dispatch(reset())
+		dispatch(fetchCharacters({page: 1}));
 	}, [dispatch]);
+
 
 
 	return (
 		<div className={className}>
-			{characters ?<><div className="wrapperBtn">
+			{sortedItems ?<><div className="wrapperBtn">
 				<TopPanel links={[
 					{ label: "Главная", href: "/", isTarget: false },
 					{ label: "Персонажи", href: ROUTES_PATH.CHARACTERS, isTarget: true }
@@ -37,19 +37,30 @@ const CharactersContainer = ({ className }: { className?: string }) => {
 					<Button width="200px"  height="45px" onClick={() => handleSortChange('createdASC')}>Сортировать по дате (возрастание)</Button>
 				</div>
 			</div>
-			<div className="charactersContainer">
-				{sortedItems.map(({ id, image, name }) => (
-					<Link className="characters" key={id} to={`${ROUTES_PATH.CHARACTERS}/${id}`}>
-						<img className="image" src={image} alt={name} />
-						<p>{name}</p>
-					</Link>
-				))}
-			</div> </> : <Loader/>}
+				<div className="charactersContainer">
+					{sortedItems.map(({ id, image, name }, index) => {
+						if (sortedItems.length === index + 1) {
+							return (
+							<Link ref={lastItemRef} className="characters" key={id} to={`${ROUTES_PATH.CHARACTERS}/${id}`}>
+								<img className="image" src={image} alt={name} />
+								<p>{name}</p>
+							</Link>
+							);
+						} else {
+							return (
+								<Link className="characters" key={id} to={`${ROUTES_PATH.CHARACTERS}/${id}`}>
+									<img className="image" src={image} alt={name} />
+									<p>{name}</p>
+								</Link>
+							);
+						}
+					})}
+				</div> </> : <Loader/>}
 		</div>
 	);
 };
 
-export const Characters = styled(CharactersContainer)`
+const Characters = styled(CharactersContainer)`
 	.wrapperBtn {
 		display: flex;
 		justify-content: space-between;
@@ -87,3 +98,5 @@ export const Characters = styled(CharactersContainer)`
 		}
 	}
 `;
+
+export default Characters;

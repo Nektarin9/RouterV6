@@ -10,7 +10,7 @@ const GreetingsContainer = ({className}: {className?: string}) => {
 	</div>
 }
 
-export const Greetings = styled(GreetingsContainer)`
+const Greetings = styled(GreetingsContainer)`
 	text-align: center;
 	font-size: 34px;
 	font-weight: 800;
@@ -21,3 +21,4 @@ export const Greetings = styled(GreetingsContainer)`
 		font-size: 44px;
 	}
 `
+export default Greetings
