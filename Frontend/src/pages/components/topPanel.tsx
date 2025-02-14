@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { BackButton } from '../base/back-button/back-button.tsx';
-import { BreadCrumbs } from '../base/bread-crumbs/breadСrumbs.tsx';
+import { BackButton } from '../../components/back-button/back-button.tsx';
+import { BreadCrumbs } from '../../components/bread-crumbs/breadСrumbs.tsx';
 
 interface LinksType {
 	label: string;

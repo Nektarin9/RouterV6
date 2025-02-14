@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { selectOneEpisodes} from '../../redux/app-slice/appSelectors.ts';
-import { TopPanel } from '../topPanel.tsx';
+import { TopPanel } from '../components/topPanel.tsx';
 import { dateFormat } from '../../utils/dateFormat.ts';
-import { Loader } from '../../base/loader/loader.tsx';
+import { Loader } from '../../loader/loader.tsx';
 import { fetchOneEpisodes } from '../../redux/api/actions';
 import {ROUTES_PATH} from "../../routing/routes.ts";
 

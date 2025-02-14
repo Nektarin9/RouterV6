@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCharacters } from '../../redux/api/actions';
 import {selectCharacters} from '../../redux/app-slice/appSelectors.ts';
 import { Link } from 'react-router-dom';
-import { Button } from '../../base/button/button.tsx';
+import { Button } from '../../components/button/button.tsx';
 import { useSort } from '../../hooks/useSort.tsx';
 import { clear } from '../../redux/app-slice/appSlice.ts';
-import { TopPanel } from '../topPanel.tsx';
-import { Loader } from '../../base/loader/loader.tsx';
+import { TopPanel } from '../components/topPanel.tsx';
+import { Loader } from '../../loader/loader.tsx';
 import {ROUTES_PATH} from "../../routing/routes.ts";
 
 

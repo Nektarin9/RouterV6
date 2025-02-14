@@ -5,10 +5,10 @@ import { useSort } from '../../hooks/useSort.tsx';
 import { useEffect } from 'react';
 import { fetchEpisodes, fetchLocation } from '../../redux/api/actions';
 import { clear } from '../../redux/app-slice/appSlice.ts';
-import { TopPanel } from '../topPanel.tsx';
-import { Button } from '../../base/button/button.tsx';
+import { TopPanel } from '../components/topPanel.tsx';
+import { Button } from '../../components/button/button.tsx';
 import { Link } from 'react-router-dom';
-import { Loader } from '../../base/loader/loader.tsx';
+import { Loader } from '../../loader/loader.tsx';
 import {ROUTES_PATH} from "../../routing/routes.ts";
 
 const EpisodesContainer = ({className}:{className?: string}) => {
