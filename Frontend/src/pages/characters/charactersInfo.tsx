@@ -9,6 +9,7 @@ import {fetchOneCharacters} from "../../redux/api/actions";
 import {selectOneCharacters} from "../../redux/app-slice/appSelectors.ts";
 import {ROUTES_PATH} from "../../routing/routes.ts";
 import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary.tsx";
+import { Image } from 'antd';
 
 interface CharactersInfoProps {
 	className?: string;
@@ -34,7 +35,7 @@ const PersonInfoContainer = ({ className }: CharactersInfoProps) => {
 			</ErrorBoundary>
 			<div className="container">
 				<div className="infoBlock">
-					<img src={oneCharacters.image} alt={oneCharacters.name} />
+					<Image width={200} src={oneCharacters.image} alt={oneCharacters.name} />
 					<div>
 						<p className="textInfo">Имя: {oneCharacters.name}</p>
 						<p className="textInfo">Гендер: {oneCharacters.gender}</p>
