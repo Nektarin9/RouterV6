@@ -1,67 +1,107 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-	Episodes,
-	Characters,
-	Location,
 	fetchEpisodes,
-	fetchLocation, fetchOneEpisodes,
-	fetchOneLocation,
-	fetchOneCharacters,
+	fetchLocation,
 	fetchCharacters,
+	fetchOneCharacters,
+	fetchOneLocation,
+	fetchOneEpisodes,
+	ResultsCharacters,
+	ResultsLocation,
+	EpisodesType,
+	ResultsEpisodes,
+	CharactersType,
+	LocationType,
 } from '../api/actions';
-
+import { WritableDraft } from 'immer';
+import {InfoType} from "../type.ts";
 
 export interface AppSliceType {
-	characters: null | Characters[];
-	oneCharacters: null | Characters;
-	location: null | Location[];
-	oneLocation: null | Location;
-	episodes: null | Episodes[];
-	oneEpisodes: null | Episodes
+	characters: ResultsCharacters[];
+	oneCharacters: ResultsCharacters | null;
+	location: ResultsLocation[];
+	oneLocation: ResultsLocation | null;
+	episodes: ResultsEpisodes[];
+	oneEpisodes: ResultsEpisodes | null;
+	loading: boolean;
+	page: number;
+	hasMode: boolean;
 }
+
 const initialState: AppSliceType = {
-	characters: null,
+	characters: [],
 	oneCharacters: null,
-	location: null,
+	location: [],
 	oneLocation: null,
-	episodes: null,
-	oneEpisodes: null
+	episodes: [],
+	oneEpisodes: null,
+	loading: false,
+	page: 1,
+	hasMode: true
 };
-export const appSlice = createSlice({
+
+const appSlice = createSlice({
 	name: 'app',
 	initialState,
 	reducers: {
-		clear: (state) => {
-			state.oneCharacters = null;
-			state.oneLocation = null;
-			state.oneEpisodes = null;
-		},
+		reset: () => structuredClone(initialState)
 	},
 	extraReducers: (builder) => {
+		const handlePending = (state:  WritableDraft<AppSliceType>) => {
+			state.loading = true;
+		};
+
+		const handleFulfilled = (state: WritableDraft<AppSliceType>,info: InfoType) => {
+			state.loading = false;
+			state.page += 1;
+			state.hasMode = state.page < info.pages
+
+		};
+
+		const handleRejected = (state: WritableDraft<AppSliceType>) => {
+			state.loading = false;
+		};
+
 		// Персонажи
-		builder.addCase(fetchCharacters.fulfilled, (state, action: PayloadAction<Characters[]>) => {
-			state.characters = action.payload;
-		});
-		builder.addCase(fetchOneCharacters.fulfilled, (state, action: PayloadAction<Characters>) => {
-			state.oneCharacters = action.payload;
-		});
+		builder
+			.addCase(fetchCharacters.pending, handlePending)
+			.addCase(fetchCharacters.fulfilled, (state, action: PayloadAction<CharactersType>) => {
+				handleFulfilled(state, action.payload.info);
+				state.characters.push(...action.payload.results);
+			})
+			.addCase(fetchCharacters.rejected, handleRejected)
+			.addCase(fetchOneCharacters.fulfilled, (state, action: PayloadAction<ResultsCharacters>) => {
+				state.oneCharacters = action.payload;
+			});
+
 		// Локации
-		builder.addCase(fetchLocation.fulfilled, (state, action: PayloadAction<Location[]>) => {
-			state.location = action.payload;
-		});
-		builder.addCase(fetchOneLocation.fulfilled, (state, action: PayloadAction<Location>) => {
-			state.oneLocation = action.payload;
-		});
+		builder
+			.addCase(fetchLocation.pending, handlePending)
+			.addCase(fetchLocation.fulfilled, (state, action: PayloadAction<LocationType>) => {
+				handleFulfilled(state, action.payload.info);
+				state.location.push(...action.payload.results);
+
+			})
+			.addCase(fetchLocation.rejected, handleRejected)
+			.addCase(fetchOneLocation.fulfilled, (state, action: PayloadAction<ResultsLocation>) => {
+				state.oneLocation = action.payload;
+			});
+
 		// Эпизоды
-		builder.addCase(fetchEpisodes.fulfilled, (state, action: PayloadAction<Episodes[]>) => {
-			state.episodes = action.payload;
-		});
-		builder.addCase(fetchOneEpisodes.fulfilled, (state, action: PayloadAction<Episodes>) => {
-			state.oneEpisodes = action.payload;
-		});
+		builder
+			.addCase(fetchEpisodes.pending, handlePending)
+			.addCase(fetchEpisodes.fulfilled, (state, action: PayloadAction<EpisodesType>) => {
+				handleFulfilled(state, action.payload.info);
+				state.episodes = [...state.episodes, ...action.payload.results];
+
+			})
+			.addCase(fetchEpisodes.rejected, handleRejected)
+			.addCase(fetchOneEpisodes.fulfilled, (state, action: PayloadAction<ResultsEpisodes>) => {
+				state.oneEpisodes = action.payload;
+			});
 	},
 });
 
 // Экспортируем редукторы
-export const { clear } = appSlice.actions;
+export const { reset } = appSlice.actions;
 export default appSlice.reducer;

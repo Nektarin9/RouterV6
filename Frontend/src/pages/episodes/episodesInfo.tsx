@@ -5,9 +5,10 @@ import { useParams } from 'react-router-dom';
 import { selectOneEpisodes} from '../../redux/app-slice/appSelectors.ts';
 import { TopPanel } from '../components/topPanel.tsx';
 import { dateFormat } from '../../utils/dateFormat.ts';
-import { Loader } from '../../loader/loader.tsx';
+import { Loader } from '../../components/loader/loader.tsx';
 import { fetchOneEpisodes } from '../../redux/api/actions';
 import {ROUTES_PATH} from "../../routing/routes.ts";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary.tsx";
 
 interface EpisodesInfoProps {
 	className?: string;
@@ -19,15 +20,18 @@ const EpisodesInfoContainer = ({ className }: EpisodesInfoProps) => {
 	const params = useParams();
 
 	useEffect(() => {
-		dispatch(fetchOneEpisodes(params.id));
+		dispatch(fetchOneEpisodes({id: params.id, page: 5}));
 	}, [dispatch]);
 
 	return <div className={className}>
-		{oneEpisodes ? <><TopPanel links={[
-			{ label: 'Главная', href: '/', isTarget: false },
-			{ label: 'Эпизоды', href: ROUTES_PATH.EPISODES, isTarget: false },
-			{ label: oneEpisodes.name, href: `${ROUTES_PATH.EPISODES}/${params.id}`, isTarget: true },
-		]} />
+		{oneEpisodes ? <>
+			<ErrorBoundary>
+				<TopPanel links={[
+				{ label: 'Главная', href: '/', isTarget: false },
+				{ label: 'Эпизоды', href: ROUTES_PATH.EPISODES, isTarget: false },
+				{ label: oneEpisodes.name, href: `${ROUTES_PATH.EPISODES}/${params.id}`, isTarget: true },
+				]} />
+			</ErrorBoundary>
 			<div className="container">
 				<div className="infoBlock">
 					<div>
@@ -43,7 +47,7 @@ const EpisodesInfoContainer = ({ className }: EpisodesInfoProps) => {
 };
 
 
-export const EpisodesInfo = styled(EpisodesInfoContainer)`
+const EpisodesInfo = styled(EpisodesInfoContainer)`
 	.container {
 		text-align: center;
 		max-width: 800px;
@@ -56,8 +60,6 @@ export const EpisodesInfo = styled(EpisodesInfoContainer)`
 		align-items: center;
 		padding: 5px;
 		gap: 40px;
-		border: 1px solid rgba(37, 37, 37, 0.59);
-		background-color: rgba(25, 24, 24, 0.42);
 	}
 
 	.textInfo {
@@ -67,3 +69,4 @@ export const EpisodesInfo = styled(EpisodesInfoContainer)`
 		font-size: 22px;
 	}
 `;
+export default EpisodesInfo;

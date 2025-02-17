@@ -52,65 +52,65 @@ const AuthorizationContainer = ({className}: {className?: string}) => {
 	};
 
 	return (
-		<div className={className}>
-			<form
-				className="formContainer"
-				onSubmit={(event) => onSubmit(event, signinForm)}
-			>
-				<div>
-					<TextInput
-						value={signinForm.userName}
-						onChange={(event) => {
-							if (event.target.value.length > 4) {
-								setError({...error, userNameError: null});
+			<div className={className}>
+				<form
+					className="formContainer"
+					onSubmit={(event) => onSubmit(event, signinForm)}
+				>
+					<div>
+						<TextInput
+							value={signinForm.userName}
+							onChange={(event) => {
+								if (event.target.value.length > 4) {
+									setError({...error, userNameError: null});
+								}
+								setSigninForm({
+									...signinForm,
+									userName: event.target.value,
+								})
 							}
-							setSigninForm({
-								...signinForm,
-								userName: event.target.value,
-							})
 						}
-					}
-						size="sm"
-						type="text"
-						label="user name"
-						placeholder="Name"
-						description="email"
-						inputWithAsterisk
-						variant="default"
-						error={error.userNameError}
-					/>
-					<TextInput
-						value={signinForm.password}
-						onChange={(event) => {
-							if (event.target.value.length > 6) {
-								setError({...error, userPasswordError: null});
+							size="sm"
+							type="text"
+							label="user name"
+							placeholder="Name"
+							description="email"
+							inputWithAsterisk
+							variant="default"
+							error={error.userNameError}
+						/>
+						<TextInput
+							value={signinForm.password}
+							onChange={(event) => {
+								if (event.target.value.length > 6) {
+									setError({...error, userPasswordError: null});
+								}
+								setSigninForm({
+									...signinForm,
+									password: event.target.value,
+								})
 							}
-							setSigninForm({
-								...signinForm,
-								password: event.target.value,
-							})
 						}
-					}
-						size="sm"
-						type="password"
-						label="Your password"
-						placeholder="password"
-						description="password"
-						inputWithAsterisk
-						variant="default"
-						error={error.userPasswordError}
-					/>
-					<button className="button" type="submit">
-						Войти
-					</button>
-				</div>
-			</form>
-		</div>
+							size="sm"
+							type="password"
+							label="Your password"
+							placeholder="password"
+							description="password"
+							inputWithAsterisk
+							variant="default"
+							error={error.userPasswordError}
+						/>
+						<button className="button" type="submit">
+							Войти
+						</button>
+					</div>
+				</form>
+			</div>
 	)
 }
 
 
-export const Authorization = styled(AuthorizationContainer)`
+ const Authorization = styled(AuthorizationContainer)`
 	margin: 150px auto;
 	text-align: center;
 	.formContainer {
@@ -138,3 +138,4 @@ export const Authorization = styled(AuthorizationContainer)`
 		background-color: #4c7e01;
 	}
 `
+export default Authorization

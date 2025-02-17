@@ -1,9 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { PATCH_URL } from '../patch';
-import { backendApiAxios } from '../axiosConfig';
+import { PATCH_URL_RICK_AND_MORTY} from '../patch';
+import { rickAndMortyApiAxios} from '../axiosConfig';
 import { AxiosResponse } from 'axios';
+import {InfoType, ParamsType} from "../../type.ts";
 
-export interface Location {
+
+export interface ResultsLocation {
 	id: number;
 	name: string;
 	type: string;
@@ -11,12 +13,21 @@ export interface Location {
 	created: string;
 }
 
+export interface LocationType {
+	info: InfoType
+	results: ResultsLocation[]
+}
 
-export const fetchLocation: any = createAsyncThunk<Location[], void>(
+
+export const fetchLocation: any = createAsyncThunk<LocationType, ParamsType>(
 	'location/fetchLocation',
-	async () => {
+	async ({ page }) => {
 		try {
-			const response:AxiosResponse<Location[]> = await backendApiAxios.get(PATCH_URL.LOCATION);
+			const response: AxiosResponse<LocationType> = await rickAndMortyApiAxios.get(PATCH_URL_RICK_AND_MORTY.LOCATION,
+				{params: {
+						page: page
+					}
+				});
 			return response.data;
 		} catch (error) {
 			console.error(error);
@@ -25,15 +36,20 @@ export const fetchLocation: any = createAsyncThunk<Location[], void>(
 	},
 );
 
-export const fetchOneLocation: any = createAsyncThunk(
+
+export const fetchOneLocation: any = createAsyncThunk<ResultsLocation, ParamsType>(
 	'oneLocation/fetchOneLocation',
-	async (id: number) => {
+	async ({ id }) => {
 		try {
-			const response:AxiosResponse<Location> = await backendApiAxios.get(`${PATCH_URL.LOCATION}/${id}`);
+			const response:AxiosResponse<ResultsLocation> = await rickAndMortyApiAxios.get(`${PATCH_URL_RICK_AND_MORTY.LOCATION}/${id}`)
 			return response.data;
 		} catch (error) {
 			console.error(error);
 			throw error;
 		}
-	},
+	}
 );
+
+
+
+

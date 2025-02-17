@@ -5,9 +5,10 @@ import { useParams } from 'react-router-dom';
 import { selectOneLocation } from '../../redux/app-slice/appSelectors.ts';
 import { TopPanel } from '../components/topPanel.tsx';
 import { dateFormat } from '../../utils/dateFormat.ts';
-import { Loader } from '../../loader/loader.tsx';
+import { Loader } from '../../components/loader/loader.tsx';
 import { fetchOneLocation } from '../../redux/api/actions';
 import {ROUTES_PATH} from "../../routing/routes.ts";
+import ErrorBoundary from "../../components/ErrorBoundary/ErrorBoundary.tsx";
 
 interface LocationInfoProps {
 	className?: string;
@@ -19,15 +20,18 @@ const LocationInfoContainer = ({ className }: LocationInfoProps) => {
 	const params = useParams();
 
 	useEffect(() => {
-		dispatch(fetchOneLocation(params.id));
+		dispatch(fetchOneLocation({id: params.id, page: 5}));
 	}, [dispatch]);
 
 	return <div className={className}>
-		{oneLocation ? <><TopPanel links={[
-			{ label: 'Главная', href: '/', isTarget: false },
-			{ label: 'Локации', href: ROUTES_PATH.LOCATION, isTarget: false },
-			{ label: oneLocation.name, href: `${ROUTES_PATH.LOCATION}/${params.id}`, isTarget: true },
-		]} />
+		{oneLocation ? <>
+			<ErrorBoundary>
+				<TopPanel links={[
+				{ label: 'Главная', href: '/', isTarget: false },
+				{ label: 'Локации', href: ROUTES_PATH.LOCATION, isTarget: false },
+				{ label: oneLocation.name, href: `${ROUTES_PATH.LOCATION}/${params.id}`, isTarget: true },
+				]} />
+			</ErrorBoundary>
 			<div className="container">
 				<div className="infoBlock">
 					<div>
@@ -44,7 +48,7 @@ const LocationInfoContainer = ({ className }: LocationInfoProps) => {
 };
 
 
-export const LocationInfo = styled(LocationInfoContainer)`
+const LocationInfo = styled(LocationInfoContainer)`
 	.container {
 		text-align: center;
 		max-width: 800px;
@@ -57,8 +61,6 @@ export const LocationInfo = styled(LocationInfoContainer)`
 		align-items: center;
 		padding: 5px;
 		gap: 40px;
-		border: 1px solid rgba(37, 37, 37, 0.59);
-		background-color: rgba(25, 24, 24, 0.42);
 	}
 
 	.textInfo {
@@ -68,3 +70,4 @@ export const LocationInfo = styled(LocationInfoContainer)`
 		font-size: 22px;
 	}
 `;
+export default LocationInfo;

@@ -3,6 +3,7 @@ import {ApiConfig} from "./redux/api/axiosConfig";
 export interface AppConfig {
     api?: {
         backendApi: string;
+		rickAndMortyApi: string
     },
 
 }
@@ -14,8 +15,9 @@ export class ProcessInitializer {
     }
 
     getApi(): ApiConfig {
-        return {
+		return {
             backendApi: this.config?.api?.backendApi || '',
+			rickAndMortyApi: this.config?.api?.rickAndMortyApi || ''
         };
     }
 }

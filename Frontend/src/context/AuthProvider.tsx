@@ -24,7 +24,6 @@ export const AuthProvider = ({children}: RouteProps) => {
 	const signout = (callback: Function) => {
 		setUser(null)
 		localStorage.removeItem("user")
-		console.log(42)
 		callback()
 	}
 	const value = {

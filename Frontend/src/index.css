@@ -19,7 +19,7 @@ body {
 html,
 body,
 #root {
-	height: auto;
+	height: 100%;
 }
 
 code {
@@ -41,6 +41,9 @@ a:hover {
 }
 h1 {
 	color: red;
+}
+h2 {
+	color: white;
 }
 button,
 button:active,
